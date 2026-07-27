@@ -19,7 +19,7 @@ header("Content-Type: application/json");
 $authMiddleware = function ($request, $handler) {
     $authHeader = $request->getHeaderLine('Authorization');
 
-    if ($authHeader !== "Bearer dmmmsu-cookbook-token-2026") {
+    if ($authHeader !== "given-token-sample") {
         $response = new \Slim\Psr7\Response();
         $response->getBody()->write(json_encode([
             "status" => "error",
