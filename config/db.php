@@ -3,7 +3,7 @@
 $host = "localhost";
 $db_name = "filipino_cookbook_api";
 $username = "root";
-$password = "Password123!";
+$password = "";
 
 try {
     $pdo = new PDO(
