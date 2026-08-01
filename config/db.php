@@ -1,9 +1,9 @@
 <?php
 
 $host = "localhost";
-$db_name = "filipino_cookbook_api";
+$db_name = "cookbook_db";
 $username = "root";
-$password = "";
+$password = "Password123!";
 
 try {
     $pdo = new PDO(

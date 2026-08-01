@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kusina — Filipino Cookbook</title>
+
+<style>
+    :root {
+        --bg: #f5f5f5;
+        --bg-hero: #ffffff;
+        --surface: #ffffff;
+        --surface-hover: #ececec;
+        --border: rgba(0, 0, 0, 0.10);
+        --border-strong: rgba(0, 0, 0, 0.22);
+        --text: #111111;
+        --text-dim: #6b6b6b;
+        --accent: #111111;
+        --accent-hover: #000000;
+        --accent-soft: rgba(0, 0, 0, 0.06);
+        --gold: #333333;
+        --gold-soft: rgba(0, 0, 0, 0.05);
+        --red: #111111;
+        --red-soft: rgba(0, 0, 0, 0.06);
+        --sage: #444444;
+        --sage-soft: rgba(0, 0, 0, 0.04);
+        --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+        --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        --radius: 14px;
+        --shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        font-family: var(--font-body);
+        background: var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--accent-soft); color: var(--text); }
+
+    :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+    /* ---------- Hero ---------- */
+
+    .hero {
+        background:
+            repeating-linear-gradient(
+                115deg,
+                rgba(0, 0, 0, 0.015) 0px,
+                rgba(0, 0, 0, 0.015) 1px,
+                transparent 1px,
+                transparent 14px
+            ),
+            var(--bg-hero);
+        border-bottom: 1px solid var(--border-strong);
+        padding: 56px 24px 40px;
+        text-align: center;
+    }
+
+    .hero-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 14px;
+    }
+
+    .hero h1 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(40px, 7vw, 64px);
+        margin: 0 0 10px;
+        letter-spacing: -0.01em;
+        color: var(--text);
+    }
+
+    .hero p {
+        margin: 0;
+        color: var(--text-dim);
+        font-size: 16px;
+        max-width: 480px;
+        margin-inline: auto;
+    }
+
+    .hero-stat {
+        margin-top: 22px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--text-dim);
+    }
+
+    .hero-stat strong {
+        color: var(--accent);
+        font-size: 15px;
+    }
+
+    /* ---------- Toolbar ---------- */
+
+    .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 24px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .search-wrap {
+        position: relative;
+        flex: 1 1 320px;
+        min-width: 240px;
+    }
+
+    .search-wrap svg {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-dim);
+        pointer-events: none;
+    }
+
+    #search {
+        width: 100%;
+        padding: 12px 40px 12px 42px;
+        border-radius: 999px;
+        border: 1px solid var(--border-strong);
+        background: var(--surface);
+        color: var(--text);
+        font-size: 15px;
+        font-family: var(--font-body);
+    }
+
+    #search::placeholder { color: var(--text-dim); }
+
+    #search:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .search-clear {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--text-dim);
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 999px;
+        display: none;
+        line-height: 0;
+    }
+
+    .search-clear.visible { display: block; }
+    .search-clear:hover { color: var(--text); background: var(--surface-hover); }
+
+    .btn {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 14px;
+        padding: 12px 20px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-primary { background: var(--accent); color: #ffffff; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    .btn-ghost {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border-strong);
+    }
+    .btn-ghost:hover { background: var(--surface-hover); }
+
+    .btn-danger { background: transparent; color: var(--text); border-color: var(--border-strong); }
+    .btn-danger:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* ---------- Grid ---------- */
+
+    main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 28px 24px 80px;
+    }
+
+    .result-line {
+        color: var(--text-dim);
+        font-size: 13px;
+        font-family: var(--font-mono);
+        margin: 4px 4px 18px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+    }
+
+    .card {
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px 18px 18px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+        text-align: left;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        border-color: var(--border-strong);
+        background: var(--surface-hover);
+    }
+
+    .ribbon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 42px 42px 0;
+        border-color: transparent var(--ribbon-color, var(--accent)) transparent transparent;
+    }
+
+    .ribbon-label {
+        position: absolute;
+        top: 6px;
+        right: 2px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: #ffffff;
+        transform: rotate(0deg);
+    }
+
+    .card h3 {
+        font-family: var(--font-display);
+        font-size: 21px;
+        margin: 4px 28px 10px 0;
+        line-height: 1.2;
+        color: var(--text);
+    }
+
+    .pill-row {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+    }
+
+    .pill {
+        font-size: 11px;
+        font-family: var(--font-mono);
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--text);
+        border: 1px solid transparent;
+        white-space: nowrap;
+    }
+
+    .pill.origin { background: transparent; color: var(--text-dim); border-color: var(--border-strong); }
+
+    .card-meta {
+        font-size: 12.5px;
+        color: var(--text-dim);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+        margin-top: 4px;
+    }
+
+    .card-delete {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: rgba(18, 28, 22, 0.7);
+        border: 1px solid var(--border-strong);
+        color: var(--text-dim);
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+
+    .card:hover .card-delete,
+    .card-delete:focus-visible { opacity: 1; }
+
+    .card-delete:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+    /* ---------- Empty / loading states ---------- */
+
+    .state {
+        text-align: center;
+        padding: 70px 20px;
+        color: var(--text-dim);
+    }
+
+    .state h3 {
+        font-family: var(--font-display);
+        color: var(--text);
+        font-size: 22px;
+        margin: 0 0 8px;
+    }
+
+    .state p { margin: 0; font-size: 14px; }
+
+    .spinner {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 2px solid var(--border-strong);
+        border-top-color: var(--accent);
+        margin: 0 auto 16px;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ---------- Modal ---------- */
+
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 15, 12, 0.65);
+        backdrop-filter: blur(3px);
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 40px 20px;
+        overflow-y: auto;
+        z-index: 100;
+    }
+
+    .overlay.open { display: flex; }
+
+    .modal {
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        border-radius: 18px;
+        max-width: 520px;
+        width: 100%;
+        padding: 28px 26px 26px;
+        box-shadow: var(--shadow);
+        animation: pop 0.18s ease;
+    }
+
+    @keyframes pop {
+        from { opacity: 0; transform: translateY(8px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 4px;
+    }
+
+    .modal h2 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        margin: 0;
+        line-height: 1.15;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        color: var(--text-dim);
+        cursor: pointer;
+        padding: 4px;
+        line-height: 0;
+        border-radius: 6px;
+        flex-shrink: 0;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal-section-label {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin: 22px 0 10px;
+    }
+
+    .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .chip {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 8px;
+    }
+
+    .recipe-note {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px 18px;
+        font-size: 14.5px;
+        line-height: 1.65;
+        color: var(--text);
+        white-space: pre-wrap;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 26px;
+    }
+
+    /* ---------- Add-food form ---------- */
+
+    .field {
+        margin-bottom: 14px;
+    }
+
+    .field label {
+        display: block;
+        font-size: 12.5px;
+        color: var(--text-dim);
+        margin-bottom: 6px;
+        font-family: var(--font-mono);
+    }
+
+    .field input, .field textarea, .field select {
+        width: 100%;
+        padding: 11px 13px;
+        border-radius: 9px;
+        border: 1px solid var(--border-strong);
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 14.5px;
+        resize: vertical;
+    }
+
+    .field select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236b6b6b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 13px center;
+        padding-right: 34px;
+        cursor: pointer;
+    }
+
+    .field select:invalid { color: var(--text-dim); }
+
+    .field input:focus, .field textarea:focus, .field select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .field-hint {
+        font-size: 12px;
+        color: var(--text-dim);
+        margin-top: 8px;
+    }
+
+    .field-error {
+        display: none;
+        font-size: 12px;
+        color: var(--text);
+        margin-top: 8px;
+        padding: 8px 10px;
+        border: 1px solid var(--border-strong);
+        border-radius: 8px;
+        background: var(--accent-soft);
+    }
+
+    .field-error.visible { display: block; }
+
+    .field-error a {
+        color: var(--text);
+        font-weight: 600;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .chip-picker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        max-height: 150px;
+        overflow-y: auto;
+        margin-top: 10px;
+        padding: 2px;
+    }
+
+    .chip-toggle {
+        font-size: 13px;
+        font-family: var(--font-body);
+        padding: 7px 13px;
+        border-radius: 999px;
+        border: 1px solid var(--border-strong);
+        background: var(--bg);
+        color: var(--text-dim);
+        cursor: pointer;
+        transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+    }
+
+    .chip-toggle:hover { border-color: var(--text-dim); }
+
+    .chip-toggle.selected {
+        background: var(--accent);
+        color: #ffffff;
+        border-color: var(--accent);
+    }
+
+    .chip-picker-empty {
+        font-size: 13px;
+        color: var(--text-dim);
+        padding: 6px 2px;
+    }
+
+    @media (max-width: 480px) {
+        .field-row { grid-template-columns: 1fr; }
+        .hero { padding: 40px 18px 32px; }
+        .toolbar { padding: 12px 16px; }
+        main { padding: 22px 16px 60px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.001ms !important;
+            transition-duration: 0.001ms !important;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="hero-eyebrow">Lutong Bahay · Homestyle Recipes</div>
+    <h1>Kusina</h1>
+    <p>A running catalogue of Filipino dishes — search by name or by what's already in your pantry.</p>
+    <div class="hero-stat"><strong id="heroCount">—</strong> dishes catalogued</div>
+</header>
+
+<div class="toolbar">
+    <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" id="search" placeholder="Search dishes or ingredients…" oninput="searchFood()" autocomplete="off">
+        <button class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Clear search">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+    <button class="btn btn-ghost" onclick="loadFoods()">Refresh</button>
+    <button class="btn btn-primary" onclick="openAddModal()">+ Add Dish</button>
+</div>
+
+<main>
+    <div class="result-line" id="resultLine"></div>
+    <div class="grid" id="foodGrid"></div>
+</main>
+
+<!-- Detail modal -->
+<div class="overlay" id="detailOverlay" onclick="if(event.target===this) closeDetail()">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+        <div class="modal-top">
+            <h2 id="detailTitle">Dish</h2>
+            <button class="modal-close" onclick="closeDetail()" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+        </div>
+        <div class="pill-row" id="detailPills"></div>
+
+        <div class="modal-section-label">Ingredients</div>
+        <div class="chip-row" id="detailIngredients"></div>
+
+        <div class="modal-section-label">Instructions</div>
+        <div class="recipe-note" id="detailInstructions"></div>
+
+        <div class="modal-actions">
+            <button class="btn btn-danger" id="detailDeleteBtn">Delete dish</button>
+            <button class="btn btn-ghost" onclick="closeDetail()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add food modal -->
+<div class="overlay" id="addOverlay" onclick="if(event.target===this) closeAddModal()">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+        <div class="modal-top">
+            <h2 id="addTitle">Add a dish</h2>
+            <button class="modal-close" onclick="closeAddModal()" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+        </div>
+
+        <div class="field">
+            <label for="food_name">Dish name</label>
+            <input type="text" id="food_name" placeholder="e.g. Sinigang">
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label for="category_id">Category</label>
+                <select id="category_id">
+                    <option value="" disabled selected>Select a category…</option>
+                </select>
+                <div class="field-error" id="categoryError">
+                    Couldn't load categories. <a href="#" onclick="event.preventDefault(); retryLookup('category')">Retry</a>
+                </div>
+            </div>
+            <div class="field">
+                <label for="origin_id">Origin</label>
+                <select id="origin_id">
+                    <option value="" disabled selected>Select an origin…</option>
+                </select>
+                <div class="field-error" id="originError">
+                    Couldn't load origins. <a href="#" onclick="event.preventDefault(); retryLookup('origin')">Retry</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="instructions">Instructions</label>
+            <textarea id="instructions" rows="4" placeholder="Boil the meat or seafood with tomatoes. Add..."></textarea>
+        </div>
+
+        <div class="field">
+            <label for="ingredientFilter">Ingredients</label>
+            <input type="text" id="ingredientFilter" placeholder="Search, or paste a comma-separated list…" oninput="renderIngredientPicker()">
+            <div class="chip-picker" id="ingredientPicker"></div>
+            <div class="field-hint" id="ingredientSelectedHint">No ingredients selected yet.</div>
+            <div class="field-error" id="ingredientError">
+                Couldn't load ingredients. <a href="#" onclick="event.preventDefault(); retryLookup('ingredient')">Retry</a>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn btn-ghost" onclick="closeAddModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="addFood()">Add dish</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// NOTE: hardcoded for local dev. Change this (or derive it from window.location)
+// before deploying anywhere other than localhost.
+const API_URL = "http://localhost/filipino-cookbook-api-aquino/public/api/foods";
+const TOKEN = "Bearer dmmmsu-cookbook-token-2026";
+
+let foodsData = [];
+let categoriesData = [];
+let originsData = [];
+let ingredientsData = [];
+let selectedIngredientIds = new Set();
+const RIBBON_COLORS = ["#111111", "#3f3f3f", "#6e6e6e", "#9c9c9c", "#c9c9c9"];
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadFoods();
+    loadLookups();
+});
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { closeDetail(); closeAddModal(); }
+});
+
+// ---------- lookup data (categories / origins / ingredients) ----------
+
+const LOOKUP_CONFIG = {
+    category: {
+        path: "categories",
+        errorEl: "categoryError",
+        onSuccess: (data) => {
+            categoriesData = data;
+            populateSelect("category_id", categoriesData, "category_id", "category_name");
+        }
+    },
+    origin: {
+        path: "origins",
+        errorEl: "originError",
+        onSuccess: (data) => {
+            originsData = data;
+            populateSelect("origin_id", originsData, "origin_id", "origin_name");
+        }
+    },
+    ingredient: {
+        path: "ingredients",
+        errorEl: "ingredientError",
+        onSuccess: (data) => {
+            ingredientsData = data;
+            renderIngredientPicker();
+        }
+    }
+};
+
+async function loadLookups() {
+    const BASE = API_URL.replace(/\/foods$/, "");
+    await Promise.all(
+        Object.keys(LOOKUP_CONFIG).map(name => runLookup(name, BASE))
+    );
+}
+
+function retryLookup(name) {
+    const BASE = API_URL.replace(/\/foods$/, "");
+    runLookup(name, BASE);
+}
+
+async function runLookup(name, BASE) {
+    const config = LOOKUP_CONFIG[name];
+    const errorEl = document.getElementById(config.errorEl);
+    errorEl.classList.remove("visible");
+
+    const ok = await fetchLookup(`${BASE}/${config.path}`, config.onSuccess);
+
+    if (!ok) {
+        errorEl.classList.add("visible");
+    }
+}
+
+// Fetches one lookup endpoint in isolation so a bad response from one
+// (network error, non-200, or malformed JSON) can't block the others.
+// Returns true on success, false on any failure (details always go to console).
+async function fetchLookup(url, onSuccess) {
+    try {
+        const res = await fetch(url, {
+            headers: { Authorization: TOKEN },
+            cache: "no-store" // avoid ever showing a stale cached response for these lookups
+        });
+        const text = await res.text();
+
+        if (!res.ok) {
+            console.error(`Lookup request failed (${url}): HTTP ${res.status}`, text);
+            return false;
+        }
+
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (parseErr) {
+            console.error(`Lookup response wasn't valid JSON (${url}). Raw response:`, text);
+            return false;
+        }
+
+        if (!Array.isArray(data)) {
+            console.error(`Lookup response wasn't an array (${url}). Parsed value:`, data);
+            return false;
+        }
+
+        onSuccess(data);
+        return true;
+    } catch (err) {
+        console.error(`Lookup request errored (${url}):`, err);
+        return false;
+    }
+}
+
+function populateSelect(elementId, items, idKey, nameKey) {
+    const select = document.getElementById(elementId);
+    const placeholder = select.querySelector("option");
+    select.innerHTML = "";
+    select.appendChild(placeholder);
+
+    items.forEach(item => {
+        const opt = document.createElement("option");
+        opt.value = item[idKey];
+        opt.textContent = item[nameKey];
+        select.appendChild(opt);
+    });
+}
+
+function renderIngredientPicker() {
+    const container = document.getElementById("ingredientPicker");
+    const rawFilter = document.getElementById("ingredientFilter").value.toLowerCase();
+    const terms = rawFilter.split(",").map(t => t.trim()).filter(Boolean);
+    container.innerHTML = "";
+
+    // If the person typed a comma-separated list (e.g. "tilapia, salt, pepper"),
+    // auto-select any ingredient whose name exactly matches one of those terms —
+    // this is what people naturally try when pasting a full ingredient list.
+    if (terms.length > 1) {
+        ingredientsData.forEach(ing => {
+            if (terms.includes(ing.ingredient_name.toLowerCase())) {
+                selectedIngredientIds.add(ing.ingredient_id);
+            }
+        });
+    }
+
+    const visible = terms.length
+        ? ingredientsData.filter(i => terms.some(t => i.ingredient_name.toLowerCase().includes(t)))
+        : ingredientsData;
+
+    if (!visible.length) {
+        container.innerHTML = `<div class="chip-picker-empty">No ingredients match "${escapeHtml(rawFilter)}".</div>`;
+        updateIngredientHint();
+        return;
+    }
+
+    visible.forEach(ing => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "chip-toggle" + (selectedIngredientIds.has(ing.ingredient_id) ? " selected" : "");
+        chip.textContent = ing.ingredient_name;
+        chip.addEventListener("click", () => {
+            if (selectedIngredientIds.has(ing.ingredient_id)) {
+                selectedIngredientIds.delete(ing.ingredient_id);
+            } else {
+                selectedIngredientIds.add(ing.ingredient_id);
+            }
+            renderIngredientPicker();
+        });
+        container.appendChild(chip);
+    });
+
+    updateIngredientHint();
+}
+
+function updateIngredientHint() {
+    const hint = document.getElementById("ingredientSelectedHint");
+    if (selectedIngredientIds.size === 0) {
+        hint.textContent = "No ingredients selected yet.";
+        return;
+    }
+    const names = ingredientsData
+        .filter(i => selectedIngredientIds.has(i.ingredient_id))
+        .map(i => i.ingredient_name);
+    hint.textContent = `${names.length} selected: ${names.join(", ")}`;
+}
+
+// ---------- data loading ----------
+
+async function loadFoods() {
+    const grid = document.getElementById("foodGrid");
+    grid.innerHTML = `<div class="state" style="grid-column:1/-1"><div class="spinner"></div><p>Loading the cookbook…</p></div>`;
+    document.getElementById("resultLine").textContent = "";
+
+    try {
+        const res = await fetch(API_URL, {
+            headers: { Authorization: TOKEN }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            grid.innerHTML = `<div class="state" style="grid-column:1/-1"><h3>Couldn't load the cookbook</h3><p>${escapeHtml(data.message || "Unknown error.")}</p></div>`;
+            return;
+        }
+
+        foodsData = data;
+        document.getElementById("heroCount").textContent = foodsData.length;
+        displayFoods(foodsData);
+    } catch (err) {
+        console.error(err);
+        grid.innerHTML = `<div class="state" style="grid-column:1/-1"><h3>Couldn't reach the API</h3><p>Check that the server is running and CORS is configured. See the console for details.</p></div>`;
+    }
+}
+
+// ---------- rendering ----------
+
+function ribbonColorFor(originName) {
+    let hash = 0;
+    for (let i = 0; i < (originName || "").length; i++) {
+        hash = (hash * 31 + originName.charCodeAt(i)) >>> 0;
+    }
+    return RIBBON_COLORS[hash % RIBBON_COLORS.length];
+}
+
+function displayFoods(data) {
+    const grid = document.getElementById("foodGrid");
+    grid.innerHTML = "";
+
+    const total = foodsData.length;
+    const shown = data.length;
+    const resultLine = document.getElementById("resultLine");
+    resultLine.textContent = shown === total
+        ? `${total} dish${total === 1 ? "" : "es"}`
+        : `${shown} of ${total} dishes`;
+
+    if (total === 0) {
+        grid.innerHTML = `<div class="state" style="grid-column:1/-1"><h3>Your cookbook is empty</h3><p>Add your first dish to get started.</p></div>`;
+        return;
+    }
+
+    if (shown === 0) {
+        const q = document.getElementById("search").value;
+        grid.innerHTML = `<div class="state" style="grid-column:1/-1"><h3>No matches for "${escapeHtml(q)}"</h3><p>Try a different name or ingredient.</p></div>`;
+        return;
+    }
+
+    data.forEach(food => grid.appendChild(buildCard(food)));
+}
+
+function buildCard(food) {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", `View recipe for ${food.food_name}`);
+    card.style.setProperty("--ribbon-color", ribbonColorFor(food.origin_name));
+
+    const ribbon = document.createElement("div");
+    ribbon.className = "ribbon";
+    card.appendChild(ribbon);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "card-delete";
+    deleteBtn.setAttribute("aria-label", `Delete ${food.food_name}`);
+    deleteBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 1.5L11.5 11.5M11.5 1.5L1.5 11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`;
+    deleteBtn.addEventListener("click", (e) => { e.stopPropagation(); deleteFood(food.food_id); });
+    card.appendChild(deleteBtn);
+
+    const h3 = document.createElement("h3");
+    h3.textContent = food.food_name;
+    card.appendChild(h3);
+
+    const pillRow = document.createElement("div");
+    pillRow.className = "pill-row";
+    pillRow.appendChild(makePill(food.category_name, "category"));
+    pillRow.appendChild(makePill(food.origin_name, "origin"));
+    card.appendChild(pillRow);
+
+    const meta = document.createElement("div");
+    meta.className = "card-meta";
+    const count = (food.ingredients || []).length;
+    meta.innerHTML = `<span>${count} ingredient${count === 1 ? "" : "s"}</span><span>View recipe →</span>`;
+    card.appendChild(meta);
+
+    const open = () => openDetail(food);
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+
+    return card;
+}
+
+function makePill(text, kind) {
+    const span = document.createElement("span");
+    span.className = "pill" + (kind === "origin" ? " origin" : "");
+    span.textContent = text;
+    return span;
+}
+
+function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str == null ? "" : String(str);
+    return div.innerHTML;
+}
+
+// ---------- search ----------
+
+function searchFood() {
+    const value = document.getElementById("search").value.toLowerCase().trim();
+    document.getElementById("searchClear").classList.toggle("visible", value.length > 0);
+
+    if (!value) {
+        displayFoods(foodsData);
+        return;
+    }
+
+    const filtered = foodsData.filter(f => {
+        const nameMatch = f.food_name.toLowerCase().includes(value);
+        const ingredientMatch = (f.ingredients || []).some(i => i.toLowerCase().includes(value));
+        return nameMatch || ingredientMatch;
+    });
+
+    displayFoods(filtered);
+}
+
+function clearSearch() {
+    const search = document.getElementById("search");
+    search.value = "";
+    search.focus();
+    searchFood();
+}
+
+// ---------- detail modal ----------
+
+function openDetail(food) {
+    document.getElementById("detailTitle").textContent = food.food_name;
+
+    const pills = document.getElementById("detailPills");
+    pills.innerHTML = "";
+    pills.appendChild(makePill(food.category_name, "category"));
+    pills.appendChild(makePill(food.origin_name, "origin"));
+
+    const ingredientsEl = document.getElementById("detailIngredients");
+    ingredientsEl.innerHTML = "";
+    (food.ingredients || []).forEach(name => {
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.textContent = name;
+        ingredientsEl.appendChild(chip);
+    });
+    if (!(food.ingredients || []).length) {
+        ingredientsEl.innerHTML = `<span class="chip">No ingredients listed</span>`;
+    }
+
+    document.getElementById("detailInstructions").textContent = food.instructions || "No instructions provided.";
+
+    const deleteBtn = document.getElementById("detailDeleteBtn");
+    deleteBtn.onclick = () => deleteFood(food.food_id);
+
+    document.getElementById("detailOverlay").classList.add("open");
+}
+
+function closeDetail() {
+    document.getElementById("detailOverlay").classList.remove("open");
+}
+
+// ---------- add-food modal ----------
+
+function openAddModal() {
+    document.getElementById("addOverlay").classList.add("open");
+    document.getElementById("food_name").focus();
+}
+
+function closeAddModal() {
+    document.getElementById("addOverlay").classList.remove("open");
+}
+
+function resetAddForm() {
+    document.getElementById("food_name").value = "";
+    document.getElementById("category_id").selectedIndex = 0;
+    document.getElementById("origin_id").selectedIndex = 0;
+    document.getElementById("instructions").value = "";
+    document.getElementById("ingredientFilter").value = "";
+    selectedIngredientIds = new Set();
+    renderIngredientPicker();
+}
+
+async function addFood() {
+    const food_name = document.getElementById("food_name").value.trim();
+    const category_id = document.getElementById("category_id").value;
+    const origin_id = document.getElementById("origin_id").value;
+    const instructions = document.getElementById("instructions").value.trim();
+    const ingredient_ids = Array.from(selectedIngredientIds);
+
+    if (!food_name || !category_id || !origin_id || !instructions || ingredient_ids.length === 0) {
+        alert("Please fill in all fields, including at least one ingredient.");
+        return;
+    }
+
+    try {
+        const res = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": TOKEN
+            },
+            body: JSON.stringify({ food_name, category_id, origin_id, instructions, ingredient_ids })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.message || "Failed to add dish.");
+            return;
+        }
+
+        resetAddForm();
+        closeAddModal();
+        loadFoods();
+    } catch (err) {
+        console.error(err);
+        alert("Could not reach the API. Check that the server is running.");
+    }
+}
+
+// ---------- delete ----------
+
+async function deleteFood(id) {
+    if (!confirm("Delete this dish? This cannot be undone.")) return;
+
+    try {
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE",
+            headers: { Authorization: TOKEN }
+        });
+
+        if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            alert(data.message || "Failed to delete dish.");
+            return;
+        }
+
+        closeDetail();
+        loadFoods();
+    } catch (err) {
+        console.error(err);
+        alert("Could not reach the API. Check that the server is running.");
+    }
+}
+</script>
+
+</body>
+</html>
